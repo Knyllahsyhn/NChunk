@@ -6,11 +6,6 @@ import tkinter.filedialog as fd
 import ux,creds,Upload
 
 
-
-
-            
-
-
 async def main():
     #root = tk.Tk()
     path_home = Path.home()
