@@ -25,7 +25,7 @@ wheels/
 share/python-wheels/
 *.egg-info/
 .installed.cfg
-pyenv.cfg
+pyvenv.cfg
 *.egg
 MANIFEST
 
