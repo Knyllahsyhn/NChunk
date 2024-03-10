@@ -171,7 +171,6 @@ async def main():
         except Exception as e:
             print(f"An error occurred: {e}")
     upload_tasks = [upload_task(k, v) for k,v in upload_paths.items()]
-    print (upload_tasks)
     await asyncio.gather(*upload_tasks)
 
 if __name__ =="__main__":
