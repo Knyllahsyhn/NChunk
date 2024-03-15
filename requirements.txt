@@ -10,5 +10,5 @@ more-itertools==10.2.0
 multidict==6.0.5
 pywin32-ctypes==0.2.2
 tqdm==4.66.2
-wheel==0.42.0
+wheel==0.43.0
 yarl==1.9.4
