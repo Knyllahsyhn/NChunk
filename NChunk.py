@@ -1,9 +1,9 @@
 import asyncio
 from getpass import getpass
-from pathlib import *
+from pathlib import Path,PurePath
 import tkinter as tk
 import tkinter.filedialog as fd
-import ux,creds,Upload
+from src import Upload,creds,ux 
 
 
 async def main():
