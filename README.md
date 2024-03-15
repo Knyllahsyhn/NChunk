@@ -36,7 +36,7 @@ Please consult the official documentation on how to install Python3 correctly an
 
 ```
 git clone https://github.com/Knyllahsyhn/NChunk.git
-cd NChunk\
+cd NChunk
 python.exe -m venv . 
 Scripts\activate
 pip install -r requirements.txt  
