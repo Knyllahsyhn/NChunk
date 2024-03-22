@@ -13,7 +13,7 @@ class Upload:
 
     async def _create_dir(self, remote_path):
         async with aiohttp.ClientSession(auth=self.auth) as session:
-            async with session.request("MKCOL", remote_path) as response:
+            async with session.request("MKCOL", remote_path,verify_ssl=False) as response:
                 response.raise_for_status()
 
     async def _create_dirs_recursively(self, remote_path):
@@ -58,7 +58,7 @@ class Upload:
                             try:
                                 async with session.put(
                                     f"{chunk_path}/{offset_identifier}-{limit_identifier}",
-                                    data=chunk
+                                    data=chunk,verify_ssl=False
                                 ) as response:
                                     response.raise_for_status()
                                     success = True

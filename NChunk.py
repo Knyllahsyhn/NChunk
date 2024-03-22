@@ -1,6 +1,6 @@
 import asyncio
 from getpass import getpass
-from pathlib import Path,PurePath
+from pathlib import Path,PurePath,PurePosixPath
 import tkinter as tk
 import tkinter.filedialog as fd
 from src import Upload,creds,ux 
@@ -19,11 +19,11 @@ async def main():
         if ux.query_yes_no("Use stored credentials?"):
             username = stored_username
             password = stored_password
-    else:
-        username = input("Enter your username: ")
-        password = getpass("Enter your password: ")
-        if ux.query_yes_no("Store credentials?"):
-            creds.store_credentials(kr,username,password)
+        else:
+            username = input("Enter your username: ")
+            password = getpass("Enter your password: ")
+            if ux.query_yes_no("Store credentials?"):
+                creds.store_credentials(kr,username,password)
     userspace = input("Enter the userspace: ")
 
     upload = Upload.Upload(url=url, userspace=userspace, username=username, password=password)
@@ -32,7 +32,7 @@ async def main():
     local_files =[PurePath(x) for x in local_files]
     upload_dir = input("Enter Upload Path: (if none specified, files will be uploaded to root)" )
     upload_paths = dict(zip(local_files, [str(PurePosixPath(upload_dir,x.name)) for x in local_files]))      #using pathlib for easily formatting the upload path 
-          
+    create_dirs_recursively = ux.query_yes_no("recurse?")
     
     # local_path = Path(input("Enter the local path of the file to upload: ").strip())
     # while not local_path.exists():
@@ -52,7 +52,7 @@ async def main():
 
     async def upload_task(local_path,remote_path):
         try:
-            await upload.upload_file(local_path=local_path, remote_path=remote_path)
+            await upload.upload_file(local_path=local_path, remote_path=remote_path,create_dirs_recursively=create_dirs_recursively)
             print("File uploaded successfully!")
         except Exception as e:
             print(f"An error occurred: {e}")
