@@ -7,7 +7,7 @@ idna==3.10
 jaraco.classes==3.4.0
 keyring==25.6.0
 more-itertools==10.5.0
-multidict==6.0.5
+multidict==6.1.0
 pywin32-ctypes==0.2.3
 tqdm==4.66.4
 wheel==0.43.0
