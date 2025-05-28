@@ -5,7 +5,7 @@
 
 requires = [
   "hatchling>=1.24",
-  "hatch-vcs>=0.4"            #  Versionsquelle = Git-Tags
+  "hatch-vcs"            #  Versionsquelle = Git-Tags
 ]
 
 build-backend = "hatchling.build"
@@ -21,7 +21,7 @@ readme = "README_EN.md"
 license = "GPL-3.0-or-later"
 requires-python = ">=3.11"
 keywords        = ["nextcloud", "webdav", "upload", "async", "cli"]
-# Version kommt aus Git-Tag via hatch-vcs → keine 'version'-Zeile nötig
+
 
 dependencies = [
   "aiohttp>=3.9",
@@ -72,6 +72,7 @@ dev = [
 [tool.hatch.version]
 source      = "vcs"          # liest Git-Tags (vX.Y.Z) als Version
 tag-pattern = "v{version}"   # Tag-Schema → v0.4.0
+fallback-version = "0.0.0.dev0"
 
 [tool.hatch.build.targets.sdist]
 include = ["/src"]
@@ -82,3 +83,5 @@ packages = ["src/nchunk"]
 [tool.hatch.envs.dev]
 dependencies = ["nchunk[dev]"]
 detached = true
+[tool.hatch.build.hooks.vcs]
+version-file = "_version.py"
