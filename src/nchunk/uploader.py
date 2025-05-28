@@ -46,21 +46,41 @@ class UploadClient:
                 backoff = min(backoff * 2, 30)
 
     async def _upload_chunks(self, session: aiohttp.ClientSession, local: Path, remote_chunk_dir: str, task_id: int):
+            # index=1
+            # while True:
+            #     data = await f.read(self.chunk_size)
+            #     if not data:
+            #         break
+            #     #end = offset + len(data) - 1
+            #     headers = {
+            #        # "OC-Chunk-Size": str(self.chunk_size),
+            #         #"Content-Range": f"bytes {offset}-{end}/*"
+            #         "OC-Chunk-Size": str(self.chunk_size),
+            #         "Content-Type": "application/octet-stream"
+            #     }
+            #     chunk_url = f"{remote_chunk_dir}/{index}"
+            #     await self._request(session, "PUT", chunk_url, data=data, headers=headers)
+            #     self.progress.update(task_id, advance=len(data))
+            #     index += 1
+        size      = local.stat().st_size
+        digits    = len(str(size))                 # z. B. 9 bei 1 234 567 890
+        offset    = 0
         async with aiofiles.open(local, "rb") as f:
-            offset = 0
             while True:
                 data = await f.read(self.chunk_size)
                 if not data:
                     break
-                end = offset + len(data) - 1
+
+                end = offset + len(data) - 1       # inkl. letztes Byte
+                name = f"{offset:0{digits}d}-{end:0{digits}d}"
+                chunk_url = f"{remote_chunk_dir}/{name}"
+
                 headers = {
-                   # "OC-Chunk-Size": str(self.chunk_size),
-                    #"Content-Range": f"bytes {offset}-{end}/*"
-                     "OC-Chunk-Size": str(self.chunk_size),
-                    "Content-Type": "application/octet-stream"
+                    "OC-Chunk-Size": str(self.chunk_size),
+                    "Content-Type":  "application/octet-stream",
                 }
-                chunk_url = f"{remote_chunk_dir}/{offset}"
-                await self._request(session, "PUT", chunk_url, data=data, headers=headers)
+                await self._request(session, "PUT", chunk_url,
+                                    data=data, headers=headers)
                 self.progress.update(task_id, advance=len(data))
                 offset = end + 1
 
@@ -77,11 +97,16 @@ class UploadClient:
                 for p in local_paths:
                     chunk_dir = generate_chunk_dir(self.base_url, self.user)
                     #remote_target = f"{self.base_url}/files/{self.user}/{remote_dir}/{p.name}".replace("//", "/")
-                    base = self.base_url.rstrip("/")
-                    parts = ["/files", self.user, remote_dir.strip("/"), p.name]
-                    path  = "/".join(filter(None, parts))
-                    remote_target = f"{base}{path}"
-                    remote_target = quote(remote_target, safe="/:")
+                    base = self.base_url.rstrip("/")          # .../remote.php/dav   (ohne End-Slash)
+
+                    remote_dir = remote_dir.strip("/")        # ""  oder "Backups"
+                    parts = [base, "files", self.user]
+                    if remote_dir:
+                        parts.append(remote_dir)
+                    parts.append(p.name)
+
+                    remote_target = quote("/".join(parts), safe="/:")
+                    
                     task_id = self.progress.add_task("upload", filename=p.name, total=p.stat().st_size)
                     t = asyncio.create_task(self._single_file(session, p, chunk_dir, remote_target, task_id))
                     tasks.append(t)
