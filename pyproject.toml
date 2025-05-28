@@ -1,5 +1,6 @@
 [build-system]
-requires = ["hatchling>=1.24"]
+requires = ["hatchling>=1.24",
+ "hatch-vcs>=0.4"]
 build-backend = "hatchling.build"
 
 
@@ -30,7 +31,7 @@ authors= [
 description = "A Python Module for chunked uploading to Nextcloud DAV"
 readme = "README_EN.md"
 license = "GPL-3.0-or-later"
-dynamic = ["version"]
+version="0.4.0"
 requires-python = ">=3.11"
 classifiers = [
   "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
@@ -52,5 +53,6 @@ dev = [
     "pytest-asyncio>=0.23",
     "aioresponses>=0.7",
     "ruff>=0.4.3",
-    "pre-commit>=3.7"
+    "pre-commit>=3.7",
+     "hatch-vcs>=0.4"
 ]
