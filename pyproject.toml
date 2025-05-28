@@ -13,6 +13,7 @@ name            = "nchunk"
 description     = "Asynchronous chunked uploader for Nextcloud with Typer CLI and Rich progress bars"
 readme          = "README.md"
 license         = { text = "MIT" }
+dynamic         = ["version"]   
 requires-python = ">=3.11"
 keywords        = ["nextcloud", "webdav", "upload", "async", "cli"]
 # Version kommt aus Git-Tag via hatch-vcs → keine 'version'-Zeile nötig
