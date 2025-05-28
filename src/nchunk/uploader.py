@@ -88,6 +88,16 @@ class UploadClient:
         move_headers = {"Destination": final_path}
         src  = f"{remote_chunk_dir}/.file" 
         await self._request(session, "MOVE", src, headers=move_headers)
+    
+    async def test_credentials(self) -> None:
+        url = f"{self.base_url}/files/{self.user}/"
+        connector = aiohttp.TCPConnector(ssl=self.ssl)
+        async with aiohttp.ClientSession(
+            auth=aiohttp.BasicAuth(self.user, self.password),
+            connector=connector,
+        ) as session:
+            await self._request(session, "PROPFIND", url, headers={"Depth": "0"})
+
 
     async def upload(self, local_paths: Sequence[Path], remote_dir: str = ""):
         connector = aiohttp.TCPConnector(ssl=self.ssl, limit=8)
