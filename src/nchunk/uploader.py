@@ -6,10 +6,10 @@ import aiofiles
 from pathlib import Path
 from typing import Sequence
 from .errors import UploadError
-from .utils import generate_chunk_dir, ensure_posix
+from .utils import generate_chunk_dir
 from rich.console import Console
 from rich.progress import Progress
-from urllib.parse import urlparse, urlunparse,quote
+from urllib.parse import urlparse, urlunparse
 
 console = Console()
 
