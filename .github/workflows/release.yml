@@ -1,0 +1,37 @@
+name: Release to PyPI & GitHub
+
+on:
+  push:
+    tags: ["v*"]          # löst nur bei Tag aus
+
+jobs:
+  build-publish:
+    permissions:
+      contents: write     # für GitHub-Release
+      id-token: write     # für PyPI OIDC login
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+
+      - name: Install Hatch
+        run: pip install hatch
+
+      - name: Build wheel + sdist
+        run: hatch build
+
+      - name: Upload to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist
+          # skip-existing: true   # optional, falls Tag re-run
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          files: dist/*
+          draft: false
+          prerelease: false

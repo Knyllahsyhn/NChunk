@@ -2,6 +2,26 @@
 requires = ["hatchling>=1.24"]
 build-backend = "hatchling.build"
 
+
+[tool.hatch.version]
+source = "vcs"              # Version wird via Git-Tag gelesen
+tag-pattern = "v{version}"  # Tag-Schema
+
+[tool.hatch.build.targets.sdist]
+include = ["/src"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/nchunk"]
+
+[tool.hatch.envs.dev]
+dependencies = ["pytest", "pytest-asyncio", "ruff", "pre-commit", "aioresponses"]
+
+[tool.hatch.publish.index]
+# leer lassen ⇒ PyPI, ansonsten:
+# username = "__token__"
+# password = "pypi-AgEI..."
+
+
 [project]
 name = "nchunk"
 authors= [

@@ -11,3 +11,4 @@ def get_progress():
         TimeElapsedColumn(),
         TimeRemainingColumn(),
     )
+  
