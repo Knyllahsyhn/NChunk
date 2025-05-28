@@ -1,85 +1,136 @@
+# NChunk – Nextcloud Chunk Uploader (Async + Rich CLI)
 
-# NChunk
+Upload große Dateien **bruchsicher** nach Nextcloud – ohne Browser-Timeouts.
 
-A simple python script that allows chunked file uploads to a Nextcloud's DAV backend (or probably to anything similar, not tested yet).  
-This is far from anything complete, just something i hacked together to finally upload big files to my NC without them timing out all the time or typing endless CURL commands into the terminal. 
+* **Asynchron (aiohttp + aiofiles)** – eine Session, volle Leitung
+* **Chunk-Upload** (≥ 5 MiB) mit automatischem Zusammenführen (`MOVE …/.file`)
+* **Typer CLI** – selbstdokumentierend, Farben via Rich
+* **Schicke Fortschrittsbalken** (Speed, ETA, mehrere Dateien parallel)
+* **Keyring**‑Integration & `.env`‑Fallback, **Login‑Check** beim Speichern
+* **Profile** für mehrere Clouds / Accounts
+* Python ≥ 3.11 • MIT‑Lizenz
 
+---
 
-## Setup
+## Inhaltsverzeichnis
 
-1. Install Python
-2. Clone repo or download zip
-3. CD into repo folder
-4. (*Optional*) Setup venv
-5. Install required packages
+1. [Installation](#installation)
+2. [Erster Login](#erster-login)
+3. [Dateien hochladen](#dateien-hochladen)
+4. [Optionen &amp; Beispiele](#optionen--beispiele)
+5. [Profile – mehrere Accounts](#profile--mehrere-accounts)
+6. [Entwicklung &amp; Tests](#entwicklung--tests)
+7. [Roadmap](#roadmap)
+8. [Lizenz](#lizenz)
 
+---
 
-  
-    
+## Installation
 
-Debian/Ubuntu:
+```bash
+# empfohlenes src‑Layout → editable install
+python -m venv .venv
+source .venv/bin/activate           # Windows: .venv\Scripts\Activate.ps1
+pip install -e .[dev]               # inkl. pytest & ruff
 ```
-sudo apt install python3
-python3 --version
-git clone https://github.com/Knyllahsyhn/NChunk.git
-cd NChunk
-python3 -m venv .
-source bin/activate
-pip install -r requirements.txt
 
+Oder später direkt aus PyPI:
+
+```bash
+pip install nchunk
 ```
 
-Windows(Powershell):
-[Python](https://www.python.org/)  
-Please consult the official documentation on how to install Python3 correctly and add the exectables to your %PATH%.  
-(I don't recommend the *winget* approach as I've experienced broken installations before.)
+---
 
+## Erster Login
+
+```bash
+# prüft URL + Zugangsdaten sofort per PROPFIND
+nchunk login https://cloud.example.com alice
+# Passwort‑Eingabe wird verdeckt
 ```
-git clone https://github.com/Knyllahsyhn/NChunk.git
-cd NChunk
-python.exe -m venv . 
-Scripts\activate
-pip install -r requirements.txt  
+
+* Erfolgreich → Daten landen verschlüsselt im OS‑Keyring (`nchunk_nextcloud`).
+* Fehlgeschlagen → klare Meldung, **keine** Speicherung.
+
+---
+
+## Dateien hochladen
+
+```bash
+# Ein File
+nchunk upload movie.iso                 \
+       --url https://cloud.example.com  \
+       --user alice
+
+# Mehrere parallel
+nchunk upload *.zip docs/**/*.pdf       \
+       --url cloud.example.com          \
+       --user alice                     \
+       --chunk-size 10485760            \
+       --remote-dir Backups/$(date +%Y-%m-%d)
 ```
-    
-## Usage/Examples
 
-Just run the script using `python3 ./Nchunk.py` (Linux) / `py .\Nchunk.py` (Windows).  
+> `--url` kann mit oder ohne `https://` angegeben werden; das Tool hängt
+> bei Bedarf `/remote.php/dav` automatisch an.
 
-The Script will not accept any command line arguments, instead it will guide you through the process.
+---
 
+## Optionen & Beispiele
 
-## Features
+| Flag              | Default      | Erklärung                                    |
+| ----------------- | ------------ | --------------------------------------------- |
+| `--chunk-size`  | `10485760` | Bytes pro Chunk (≥ 5 MiB)                  |
+| `--remote-dir`  | `""`       | Zielordner in Nextcloud (wird angelegt)       |
+| `--insecure`    | `False`    | TLS‑Prüfung abschalten (Self‑Signed Certs) |
+| `--concurrency` | `4`        | Max. parallele Datei‑Uploads                 |
+| `--profile`     | `default`  | Trennt mehrere Accounts (siehe unten)         |
+| `--resume`*     | –           | *geplant* – Upload fortsetzen              |
+| `--dry-run`*    | –           | *geplant* – nur Requests anzeigen          |
 
-- cross-platform
-- credentials saving using the **keyring** package
-- GUI file selection
-- progress indicator
-- asynchronous
+---
 
+## Profile – mehrere Accounts
 
+```bash
+# Work‑Cloud
+nchunk login https://cloud.work.com alice --profile work
+
+# Private Cloud
+nchunk login cloud.home.net bob --profile home
+
+# Upload mit explizitem Profil
+nchunk upload video.mp4 --profile work
+```
+
+Keyring‑Keys → `<url>::<user>::<profile>`.
+
+---
+
+## Entwicklung & Tests
+
+```bash
+ruff check src tests   # Linting
+pytest                 # Unit‑ & Async‑Tests
+```
+
+Der **src‑Layer** stellt sicher, dass Tests nur nach
+`pip install -e .` funktionieren – Import‑Fehler fallen sofort auf.
+
+---
 
 ## Roadmap
 
-- Extended logging 
-- Profile selection
-- Fix ugly progress bar
-- 2FA Support
-- Proper Documentation
-- Error Handling
-- Tests
-- Build complete GUI
-- Automatic selection of said GUI or CLI depending on environment
-- probably make this into a library at some point for usage in upload clients or whatever
+- [ ] **Resume** abgebrochener Uploads (`--resume`)
+- [ ] **Sync‑Ordner** (watch & upload)
+- [ ] Progress‑Export als JSON / Quiet‑Mode
+- [ ] PyPI‑Release mit Signed Wheels
+- [ ] Windows‑Installer (pex / shiv)
 
+PRs & Issues willkommen 🙂
 
+---
 
-## License
+## Lizenz
 
- Licensed under [GPL-3](https://choosealicense.com/licenses/agpl-3.0/).
- Check LICENSE file for more information.
-
-
-## Appendix
-
-My thanks to @shiftpi whose Javascript Version of a chunked uploader (which is far more professional than this ) inspired me to work on this. 
+GPLV3, siehe LICENSE
