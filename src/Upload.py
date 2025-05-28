@@ -32,6 +32,7 @@ class Upload:
 
     async def upload_file(self, local_path, remote_path, chunk_size=2 * 1024 * 1024, retry_chunks=5, create_dirs_recursively=False):
         chunk_path = f"{self.upload_url}/{hashlib.sha256(os.urandom(32)).hexdigest()}"
+        print(f"{self.files_url}/{remote_path.lstrip('/')}")
         await self._create_dir(chunk_path)
 
         identifier_length = len(str(os.path.getsize(local_path)))
