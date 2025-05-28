@@ -4,9 +4,26 @@ build-backend = "hatchling.build"
 
 [project]
 name = "nchunk"
-version = "0.2.0"
+authors= [
+    {name= "Johannes Mueller", email="kex1.jml@gmail.com"}
+]
+description = "A Python Module for chunked uploading to Nextcloud DAV"
+readme = "README_EN.md"
+license = "GPL-3.0-or-later"
+version = "0.2.1"
 requires-python = ">=3.11"
-dependencies = ["aiohttp>=3.9","aiofiles>=23.2","typer[all]>=0.12","rich>=13.7","keyring>=24.3","python-dotenv>=1.0"]
+classifiers = [
+  "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Intended Audience :: Developers",
+  "Environment :: Console",
+  "Topic :: Internet :: File Transfer Protocol (FTP)",
+  "Topic :: System :: Networking",
+]
+dependencies = ["aiohttp>=3.9","aiofiles>=23.2","typer>=0.12","rich>=13.7","keyring>=24.3","python-dotenv>=1.0"]
 [project.scripts]
 nchunk = "nchunk.cli:app"
 [project.optional-dependencies]
