@@ -4,5 +4,5 @@ repos:
       - id: ruff
         name: ruff
         entry: ruff check
-        language: system     # ⬅️  benutzt einfach ruff.exe / ruff.cmd
+        language: system  
         types: [python]
