@@ -1,4 +1,3 @@
-
 # NChunk – Async Chunked Uploader for Nextcloud
 
 **NChunk** uploads huge files to Nextcloud safely—no browser, no time‑outs.
@@ -9,19 +8,20 @@
 * 📊 **Live progress bars** (speed, ETA, multiple files in parallel)
 * 🔐 Secure credential storage (keyring) + `.env` fallback, **login check**
 * 👥 **Profiles** for multiple clouds / accounts
-* Requires **Python ≥ 3.11** • MIT License
+* Requires **Python ≥ 3.11** • GPLv3+
 
 ---
 
 ## Table of Contents
-1. [Installation](#installation)  
-2. [First Login](#first-login)  
-3. [Upload Files](#upload-files)  
-4. [Options & Examples](#options--examples)  
-5. [Profiles](#profiles)  
-6. [Development & Tests](#development--tests)  
-7. [Roadmap](#roadmap)  
-8. [License](#license)  
+
+1. [Installation](#installation)
+2. [First Login](#first-login)
+3. [Upload Files](#upload-files)
+4. [Options &amp; Examples](#options--examples)
+5. [Profiles](#profiles)
+6. [Development &amp; Tests](#development--tests)
+7. [Roadmap](#roadmap)
+8. [License](#license)
 
 ---
 
@@ -46,7 +46,7 @@ nchunk login https://cloud.example.com alice
 # password is prompted securely
 ```
 
-* On success credentials are stored in the OS keyring (`nchunk_nextcloud`).  
+* On success credentials are stored in the OS keyring (`nchunk_nextcloud`).
 * On failure you get a clear message and **nothing** is saved.
 
 ---
@@ -73,15 +73,15 @@ nchunk upload *.zip docs/**/*.pdf       \
 
 ## Options & Examples
 
-| Flag            | Default    | Description                                    |
-|-----------------|------------|------------------------------------------------|
-| `--chunk-size`  | `10485760` | bytes per chunk (≥ 5 MiB)                      |
+| Flag              | Default      | Description                                    |
+| ----------------- | ------------ | ---------------------------------------------- |
+| `--chunk-size`  | `10485760` | bytes per chunk (≥ 5 MiB)                   |
 | `--remote-dir`  | `""`       | target folder in Nextcloud (created if absent) |
-| `--insecure`    | `False`    | skip TLS verification (self‑signed certs)      |
+| `--insecure`    | `False`    | skip TLS verification (self‑signed certs)     |
 | `--concurrency` | `4`        | max concurrent file uploads                    |
 | `--profile`     | `default`  | separate multiple accounts                     |
-| `--resume`*     | –          | *planned* — resume aborted upload              |
-| `--dry-run`*    | –          | *planned* — print requests, do nothing         |
+| `--resume`*     | –           | *planned* — resume aborted upload           |
+| `--dry-run`*    | –           | *planned* — print requests, do nothing      |
 
 ---
 
@@ -109,7 +109,7 @@ ruff check src tests      # static analysis
 pytest -q                 # unit + async tests
 ```
 
-The **src‑layout** ensures imports work only after  
+The **src‑layout** ensures imports work only after
 `pip install -e .` — missing metadata show up immediately.
 
 ---
@@ -128,4 +128,4 @@ PRs & issues welcome 🙂
 
 ## License
 
-MIT — see [`LICENSE`](LICENSE).
+GPLv3+
