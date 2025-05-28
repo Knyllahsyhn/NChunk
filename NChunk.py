@@ -15,15 +15,16 @@ async def main():
     # password = getpass("Enter your password: ")
     kr = "upload_script"
     stored_username, stored_password = creds.get_stored_credentials(kr)
+    print(stored_password,stored_username)
     if stored_username and stored_password:
         if ux.query_yes_no("Use stored credentials?"):
             username = stored_username
             password = stored_password
-        else:
-            username = input("Enter your username: ")
-            password = getpass("Enter your password: ")
-            if ux.query_yes_no("Store credentials?"):
-                creds.store_credentials(kr,username,password)
+    else:
+        username = input("Enter your username: ")
+        password = getpass("Enter your password: ")
+        if ux.query_yes_no("Store credentials?"):
+            creds.store_credentials(kr,username,password)
     userspace = input("Enter the userspace: ")
 
     upload = Upload.Upload(url=url, userspace=userspace, username=username, password=password)
