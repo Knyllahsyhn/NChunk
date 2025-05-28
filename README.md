@@ -8,7 +8,7 @@ Upload große Dateien **bruchsicher** nach Nextcloud – ohne Browser-Timeouts.
 * **Schicke Fortschrittsbalken** (Speed, ETA, mehrere Dateien parallel)
 * **Keyring**‑Integration & `.env`‑Fallback, **Login‑Check** beim Speichern
 * **Profile** für mehrere Clouds / Accounts
-* Python ≥ 3.11 • MIT‑Lizenz
+* Python ≥ 3.11 • GPLV3
 
 ---
 
