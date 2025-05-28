@@ -31,7 +31,7 @@ authors= [
 description = "A Python Module for chunked uploading to Nextcloud DAV"
 readme = "README_EN.md"
 license = "GPL-3.0-or-later"
-dynamic = ["version"]
+version="0.4.0"
 requires-python = ">=3.11"
 classifiers = [
   "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
