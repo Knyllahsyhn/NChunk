@@ -86,7 +86,8 @@ class UploadClient:
 
     async def _assemble_file(self, session: aiohttp.ClientSession, remote_chunk_dir: str, final_path: str):
         move_headers = {"Destination": final_path}
-        await self._request(session, "MOVE", remote_chunk_dir, headers=move_headers)
+        src  = f"{remote_chunk_dir}/.file" 
+        await self._request(session, "MOVE", src, headers=move_headers)
 
     async def upload(self, local_paths: Sequence[Path], remote_dir: str = ""):
         connector = aiohttp.TCPConnector(ssl=self.ssl, limit=8)
@@ -99,13 +100,21 @@ class UploadClient:
                     #remote_target = f"{self.base_url}/files/{self.user}/{remote_dir}/{p.name}".replace("//", "/")
                     base = self.base_url.rstrip("/")          # .../remote.php/dav   (ohne End-Slash)
 
-                    remote_dir = remote_dir.strip("/")        # ""  oder "Backups"
-                    parts = [base, "files", self.user]
-                    if remote_dir:
-                        parts.append(remote_dir)
-                    parts.append(p.name)
+                    # remote_dir = remote_dir.strip("/")        # ""  oder "Backups"
+                    # parts = [base, "files", self.user]
+                    # if remote_dir:
+                    #     parts.append(remote_dir)
+                    # parts.append(p.name)
 
-                    remote_target = quote("/".join(parts), safe="/:")
+                    # remote_target = quote("/".join(parts), safe="/:")
+                    base = self.base_url.rstrip("/")                # …/remote.php/dav   (ohne / am Ende)
+                    remote_dir = remote_dir.strip("/")
+                    remote_target = f"{base}/files/{self.user}"
+                    if remote_dir:
+                        remote_target += f"/{remote_dir}"
+                    remote_target += f"/{p.name}"
+                    
+                    
                     
                     task_id = self.progress.add_task("upload", filename=p.name, total=p.stat().st_size)
                     t = asyncio.create_task(self._single_file(session, p, chunk_dir, remote_target, task_id))
@@ -118,4 +127,5 @@ class UploadClient:
         await self._upload_chunks(session, local, chunk_dir, task_id)
         await self._assemble_file(session, chunk_dir, remote_target)
         self.progress.update(task_id, completed=True)
+        console.print("\n")
         console.print(f"[green]Uploaded {local.name} -> {remote_target}")
