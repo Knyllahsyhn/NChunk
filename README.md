@@ -127,7 +127,7 @@ Der **src‑Layer** stellt sicher, dass Tests nur nach
 - [ ] **Resume** abgebrochener Uploads (`--resume`)
 - [ ] **Sync‑Ordner** (watch & upload)
 - [ ] Progress‑Export als JSON / Quiet‑Mode
-- [ ] PyPI‑Release mit Signed Wheels
+-  :white_check_mark: PyPI‑Release mit Signed Wheel
 - [ ] Windows‑Installer (pex / shiv)
 
 PRs & Issues willkommen 🙂
