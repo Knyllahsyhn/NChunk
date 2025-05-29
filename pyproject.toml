@@ -10,10 +10,25 @@ build-backend = "hatchling.build"
 [project]
 name            = "nchunk"
 description     = "Asynchronous chunked uploader for Nextcloud with Typer CLI and Rich progress bars"
-readme          = "README.md"
-license         = { text = "MIT" }
-dynamic = ["version"]
+dynamic         = ["version"]   
+authors= [
+    {name= "Johannes Mueller", email="kex1.jml@gmail.com"}
+]
+readme = "README_EN.md"
+license = "GPL-3.0-or-later"
 requires-python = ">=3.11"
+keywords        = ["nextcloud", "webdav", "upload", "async", "cli"]
+
+
+dependencies = [
+  "aiohttp>=3.9",
+  "aiofiles>=23.2",
+  "typer[all]>=0.12",
+  "rich>=13.7",
+  "keyring>=24.3",
+  "python-dotenv>=1.0"
+]
+
 keywords        = ["nextcloud", "webdav", "upload", "async", "cli"]
 # Version kommt aus Git-Tag via hatch-vcs → keine 'version'-Zeile nötig
 
@@ -28,18 +43,31 @@ dependencies = [
 
 classifiers = [
   "License :: OSI Approved :: MIT License",
+  "License :: OSI Approved :: MIT License",
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3 :: Only",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Environment :: Console",
   "Environment :: Console",
   "Intended Audience :: Developers",
   "Topic :: Internet :: File Transfer Protocol (FTP)",
   "Topic :: System :: Networking",
 ]
 
+
 [project.scripts]
 nchunk = "nchunk.cli:app"
+
+[project.urls]
+Homepage        = "https://github.com/Knyllahsyhn/nchunk"
+Source          = "https://github.com/Knyllahsyhn/nchunk"
+Tracker         = "https://github.com/Knyllahsyhn/nchunk/issues"
+CI              = "https://github.com/Knyllahsyhn/nchunk/actions"
+
+###################################
+#  Optionale Abhängigkeits-Gruppen #
+###################################
 
 [project.urls]
 Homepage        = "https://github.com/Knyllahsyhn/nchunk"
