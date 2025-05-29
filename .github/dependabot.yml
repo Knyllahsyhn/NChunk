@@ -1,11 +1,27 @@
-# To get started with Dependabot version updates, you'll need to specify which
-# package ecosystems to update and where the package manifests are located.
-# Please see the documentation for all configuration options:
-# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
-
 version: 2
 updates:
-  - package-ecosystem: "pip" # See documentation for possible values
-    directory: "/" # Location of package manifests
+  # 1) Python-Dependencies aus pyproject.lock/requirements
+  - package-ecosystem: "pip"
+    directory: "/"                # Root-Verzeichnis
+    schedule:
+      interval: "weekly"          # täglich | wöchentlich | monatlich
+      day: "monday"               # nur für weekly / monthly
+      time: "07:00"               # UTC
+    open-pull-requests-limit: 5
+    # nur Patch- und Minor-Updates automatisch mergen (optional)
+    allow:
+      - dependency-type: "all"
+    ignore:
+      - dependency-name: "aiohttp"
+        update-types: ["version-update:semver-major"]
+    # Labels helfen beim Filtern
+    labels:
+      - "dependabot"
+      - "type:dependency"
+
+  # 2) GitHub-Actions – hält deine CI-Workflows frisch
+  - package-ecosystem: "github-actions"
+    directory: "/"
     schedule:
       interval: "weekly"
+    labels: ["dependabot", "actions"]
