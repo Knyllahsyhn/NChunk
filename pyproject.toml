@@ -2,12 +2,9 @@
 #  Build- und Projekt-Info #
 ############################
 [build-system]
-
 requires = [
-  "hatchling>=1.24",
-  "hatch-vcs"            #  Versionsquelle = Git-Tags
+  "hatchling>=1.24"
 ]
-
 build-backend = "hatchling.build"
 
 [project]
@@ -20,7 +17,6 @@ authors= [
 readme = "README_EN.md"
 license = "GPL-3.0-or-later"
 requires-python = ">=3.11"
-keywords        = ["nextcloud", "webdav", "upload", "async", "cli"]
 
 
 dependencies = [
@@ -32,20 +28,26 @@ dependencies = [
   "python-dotenv>=1.0"
 ]
 
+keywords = ["nextcloud", "webdav", "upload", "async", "cli"]
+
+
 classifiers = [
-  "License :: OSI Approved :: MIT License",
+  "License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)",
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3 :: Only",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Environment :: Console",
   "Environment :: Console",
   "Intended Audience :: Developers",
   "Topic :: Internet :: File Transfer Protocol (FTP)",
   "Topic :: System :: Networking",
 ]
 
+
 [project.scripts]
 nchunk = "nchunk.cli:app"
+
 
 [project.urls]
 Homepage        = "https://github.com/Knyllahsyhn/nchunk"
@@ -62,17 +64,12 @@ dev = [
   "pytest-asyncio>=0.23",
   "aioresponses>=0.7",
   "ruff>=0.4.3",
-  "pre-commit>=3.7",
-  "hatch-vcs>=0.4"
+  "pre-commit>=3.7"
 ]
 
 #########################
 # Hatch-spezifische Teil #
 #########################
-[tool.hatch.version]
-source      = "vcs"          # liest Git-Tags (vX.Y.Z) als Version
-tag-pattern = "v{version}"   # Tag-Schema → v0.4.0
-fallback-version = "0.0.0.dev0"
 
 [tool.hatch.build.targets.sdist]
 include = ["/src"]
@@ -83,5 +80,5 @@ packages = ["src/nchunk"]
 [tool.hatch.envs.dev]
 dependencies = ["nchunk[dev]"]
 detached = true
-[tool.hatch.build.hooks.vcs]
-version-file = "_version.py"
+[tool.hatch.version]
+path="src/nchunk/__init__.py"
