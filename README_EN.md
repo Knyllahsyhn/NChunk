@@ -8,7 +8,7 @@
 * 📊 **Live progress bars** (speed, ETA, multiple files in parallel)
 * 🔐 Secure credential storage (keyring) + `.env` fallback, **login check**
 * 👥 **Profiles** for multiple clouds / accounts
-* Requires **Python ≥ 3.11** • GPLv3+
+* Requires **Python ≥ 3.11** • GPLv3
 
 ---
 
@@ -128,4 +128,4 @@ PRs & issues welcome 🙂
 
 ## License
 
-GPLv3+
+GPLv3
