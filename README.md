@@ -11,6 +11,9 @@ Upload große Dateien **bruchsicher** nach Nextcloud – ohne Browser-Timeouts.
 * Python ≥ 3.11 • GPLV3
 
 ---
+![PyPI](https://img.shields.io/pypi/v/nchunk)
+![CI](https://github.com/Knyllahsyhn/nchunk/actions/workflows/ci.yml/badge.svg)
+[![Release to PyPI & GitHub](https://github.com/Knyllahsyhn/NChunk/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/Knyllahsyhn/NChunk/actions/workflows/release.yml)
 
 ## Inhaltsverzeichnis
 
