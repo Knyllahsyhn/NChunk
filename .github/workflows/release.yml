@@ -44,7 +44,7 @@ jobs:
 
       # 6) GitHub-Release erstellen + Artefakte anhängen
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ github.ref_name }}   # v0.4.1
           name: ${{ github.ref_name }}
