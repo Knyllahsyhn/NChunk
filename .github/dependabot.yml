@@ -19,7 +19,7 @@ updates:
       - "dependabot"
       - "type:dependency"
 
-  # 2) GitHub-Actions – hält deine CI-Workflows frisch
+  # 2) G
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
